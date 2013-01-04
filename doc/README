@@ -1,0 +1,10 @@
+
+Setup
+===============================================================================
+
+	* add the solrdam static template
+	* if your Media folder is on the root level:
+		* in your Media folder create a root TypoScript template record, inlude a site's root template
+		* set plugin.tx_solr.index.queue.tx_dam.additionalPageIds to your Media folder's page ID
+	* initialize Index Queue for tx_dam
+

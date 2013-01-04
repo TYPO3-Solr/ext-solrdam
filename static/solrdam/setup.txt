@@ -1,0 +1,97 @@
+
+plugin.tx_solr {
+
+	index {
+
+		fieldProcessingInstructions {
+			fileModificationTime_dateS = timestampToIsoDate
+			fileCreationTime_dateS = timestampToIsoDate
+		}
+
+		queue {
+
+			tx_dam = 1
+			tx_dam {
+				indexer = tx_solrdam_indexqueue_DamIndexer
+				additionalPageIds = 
+
+				fields {
+
+					title = title
+
+					content = SOLR_CONTENT
+					content {
+						field = __solrdam_file_content
+					}
+
+					description = description
+					abstract = caption
+
+					keywords = SOLR_MULTIVALUE
+					keywords {
+						field = keywords
+					}
+
+					category_stringM = SOLR_RELATION
+					category_stringM {
+						localField = category
+						multiValue = 1
+					}
+
+					fileMimeType = __solrdam_file_mime_type
+					fileName = __solrdam_file_name
+					fileRelativePath = __solrdam_file_relative_path
+					fileRelativePathOnly = __solrdam_file_relative_path_only
+					fileExtension = __solrdam_file_extension
+					fileSha1 = __solrdam_file_sha1
+
+					fileDownloadName_stringS = file_dl_name
+					fileSize_intS = file_size
+					fileModificationTime_dateS = file_mtime
+					fileCreationTime_dateS = file_ctime
+
+				}
+
+			}
+
+		}
+
+	}
+
+	search {
+
+		results {
+
+			fieldRenderingInstructions {
+
+				url = CASE
+				url {
+					tx_dam = TEXT
+					tx_dam {
+						typolink {
+							parameter.field = fileRelativePath
+							returnLast = url
+						}
+					}
+				}
+
+				link = CASE
+				link {
+					tx_dam = TEXT
+					tx_dam {
+						field = fileName
+
+						typolink {
+							parameter.field = fileRelativePath
+						}
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	logging.indexing.queue.tx_dam = 0
+}
