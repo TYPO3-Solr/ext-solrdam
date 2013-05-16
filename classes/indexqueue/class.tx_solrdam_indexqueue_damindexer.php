@@ -41,15 +41,18 @@ class tx_solrdam_indexqueue_DamIndexer extends tx_solr_indexqueue_Indexer {
 	 */
 	protected function getFullItemRecord(tx_solr_indexqueue_Item $item, $language = 0) {
 		$itemRecord = parent::getFullItemRecord($item, $language);
-		$file = t3lib_div::makeInstance('tx_solr_fileindexer_File', $itemRecord['file_path'] . $itemRecord['file_name']);
 
-		$itemRecord['__solrdam_file_content']            = $file->getContent();
-		$itemRecord['__solrdam_file_mime_type']          = $file->getMimeType();
-		$itemRecord['__solrdam_file_name']               = $file->getName();
-		$itemRecord['__solrdam_file_relative_path']      = $file->getRelativePath();
-		$itemRecord['__solrdam_file_relative_path_only'] = $file->getRelativePath(tx_solr_fileindexer_File::PATH_EXCLUDE_FILE_NAME);
-		$itemRecord['__solrdam_file_extension']          = $file->getExtension();
-		$itemRecord['__solrdam_file_sha1']               = $file->getSha1();
+		if (!is_null($itemRecord)) {
+			$file = t3lib_div::makeInstance('tx_solr_fileindexer_File', $itemRecord['file_path'] . $itemRecord['file_name']);
+
+			$itemRecord['__solrdam_file_content']            = $file->getContent();
+			$itemRecord['__solrdam_file_mime_type']          = $file->getMimeType();
+			$itemRecord['__solrdam_file_name']               = $file->getName();
+			$itemRecord['__solrdam_file_relative_path']      = $file->getRelativePath();
+			$itemRecord['__solrdam_file_relative_path_only'] = $file->getRelativePath(tx_solr_fileindexer_File::PATH_EXCLUDE_FILE_NAME);
+			$itemRecord['__solrdam_file_extension']          = $file->getExtension();
+			$itemRecord['__solrdam_file_sha1']               = $file->getSha1();
+		}
 
 		return $itemRecord;
 	}
